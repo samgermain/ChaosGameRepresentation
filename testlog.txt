@@ -1,0 +1,147 @@
+testlog
+Samuel Germain
+11131725
+sjg970
+Lec Sec 01 
+Tut Sec T07
+
+Testing cgr tests
+
+sjg970@tux1:~> ./test_cgr_aux
+sjg970@tux1:~> ./test_cgr_plot
+
+Nothing is output as expected
+
+Testing makefile
+
+//testing the compilation of cgr_aux.o
+sjg970@tux1:~> make cgr_aux.o
+g++ -Wall -Wextra -c cgr_aux.cc
+
+//testing the compilation of cgr_plot.o
+sjg970@tux1:~> make cgr_plot.o
+g++ -Wall -Wextra -c cgr_plot.cc
+
+//testing the compilation of cgr.o
+sjg970@tux1:~> make cgr.o
+g++ -Wall -Wextra -c cgr.cc
+
+//testing the compilation of test_cgr_aux.o
+sjg970@tux1:~> make test_cgr_aux.o
+g++ -Wall -Wextra -c test_cgr_aux.cc
+
+//testing the compilation of test_cgr_plot.o
+sjg970@tux1:~> make test_cgr_plot.o
+g++ -Wall -Wextra -c test_cgr_plot.cc
+
+//testing the making of executable test_cgr_aux
+sjg970@tux1:~> make test_cgr_aux
+g++ -Wall -Wextra -lnetpbm  -g cgr_aux.o test_cgr_aux.o cgr_plot.o -o test_cgr_aux
+
+//testing the making of excecutable test_cgr_plot
+sjg970@tux1:~> make test_cgr_plot
+g++ -Wall -Wextra -lnetpbm  -g cgr_aux.o cgr_plot.o test_cgr_plot.o -o test_cgr_plot
+
+//testing make test when the executable are already make
+sjg970@tux1:~> make tests
+make: Nothing to be done for 'tests'.
+
+//testing make clean
+sjg970@tux1:~> make clean
+rm -f cgr_plot.o cgr_aux.o cgr_aux.o cgr.o test_aux.o test_plot.o test_cgr_plot.o
+rm -f cgr tests test_cgr_aux test_cgr_plot
+
+//testing the making of the test executables with make tests
+sjg970@tux1:~> make tests
+g++ -Wall -Wextra -c cgr_aux.cc
+g++ -Wall -Wextra -c cgr_plot.cc
+g++ -Wall -Wextra -lnetpbm  -g cgr_aux.o test_cgr_aux.o cgr_plot.o -o test_cgr_aux
+g++ -Wall -Wextra -c test_cgr_plot.cc
+g++ -Wall -Wextra -lnetpbm  -g cgr_aux.o cgr_plot.o test_cgr_plot.o -o test_cgr_plot
+
+//testing the making of the executable cgr
+sjg970@tux1:~> make cgr
+g++ -Wall -Wextra -c cgr.cc
+g++ cgr.o cgr_aux.o cgr_plot.o -lnetpbm  -o cgr
+
+//testing make all when all is already made
+sjg970@tux1:~> make all
+make: Nothing to be done for 'all'.
+sjg970@tux1:~> make clean
+rm -f cgr_plot.o cgr_aux.o cgr_aux.o cgr.o test_aux.o test_plot.o test_cgr_plot.o
+rm -f cgr tests test_cgr_aux test_cgr_plot
+
+//testing making all
+sjg970@tux1:~> make all
+g++ -Wall -Wextra -c cgr.cc
+g++ -Wall -Wextra -c cgr_aux.cc
+g++ -Wall -Wextra -c cgr_plot.cc
+g++ cgr.o cgr_aux.o cgr_plot.o -lnetpbm  -o cgr
+g++ -Wall -Wextra -lnetpbm  -g cgr_aux.o test_cgr_aux.o cgr_plot.o -o test_cgr_aux
+g++ -Wall -Wextra -c test_cgr_plot.cc
+g++ -Wall -Wextra -lnetpbm  -g cgr_aux.o cgr_plot.o test_cgr_plot.o -o test_cgr_plot
+sjg970@tux1:~> 
+
+
+
+Testing for SCALE parameters
+
+//testing cgr for when nothing is given
+sjg970@tux1:~> ./cgr 
+Usage: ./cgr <N>
+
+//testing cgr for when no SCALE is given
+sjg970@tux1:~> ./cgr <<< "TGaCCcA" > TGACCCA.pbm
+Usage: ./cgr <N>
+
+//testing cgr for when SCALE is one below minimum
+sjg970@tux1:~> ./cgr 31 <<< "TGaCCcA" > TGACCCA.pbm
+SCALE is too small
+
+//testing cgr for when SCALE is one above minimum
+sjg970@tux1:~> ./cgr 33 <<< "TGaCCcA" > TGACCCA.pbm
+SCALE is not a power of 2
+
+//testing cgr for when scale is one about maximum
+sjg970@tux1:~> ./cgr 4097 <<< "TGaCCcA" > TGACCCA.pbm
+SCALE is too big
+
+//testing cgr for a legal value for SCALE
+sjg970@tux1:~> ./cgr 64 <<< "TGaCCcA" > TGACCCA.pbm
+
+//testing cgr for a higher legal value for SCALE
+sjg970@tux1:~> ./cgr 2048 < ntideSequence.txt > HUMHBB.pbm
+
+//testing cgr for a power of 2 that is too small
+sjg970@tux1:~> ./cgr 16 < ntideSequence.txt > HUMHBB.pbm
+SCALE is too small
+
+//testing cgr for maximum limit
+sjg970@tux1:~> ./cgr 4096 < ntideSequence.txt > HUMHBB.pbm
+
+//testing cgr for one above maximum limit
+sjg970@tux1:~> ./cgr 4097 < ntideSequence.txt > HUMHBB.pbm
+SCALE is too big
+
+//testing cgr for one below maximum
+sjg970@tux1:~> ./cgr 4095 < ntideSequence.txt > HUMHBB.pbm
+SCALE is not a power of 2
+
+//testing cgr for power of 2 that is too big
+sjg970@tux1:~> ./cgr 8192 < ntideSequence.txt > HUMHBB.pbm
+SCALE is too big
+
+//testing cgr for a number that is not a power of 2
+sjg970@tux1:~> ./cgr 125 < ntideSequence.txt > HUMHBB.pbm
+SCALE is not a power of 2
+
+
+
+testing cgr function
+
+//testing to see if it prints what is expected
+sjg970@tux1:~> ./cgr 2048 < ntideSequence.txt > testplot.pbm
+sjg970@tux1:~> cmp testplot.pbm HUMHBB.pbm
+cmp: EOF on HUMHBB.pbm
+
+no difference except EOF which cannot be explained because the pictures look almost the same
